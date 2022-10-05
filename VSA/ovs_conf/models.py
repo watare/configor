@@ -21,7 +21,7 @@ class Port(models.Model):
     def __str__(self) -> str:
         return f'{self.name}'
     
-    bridge = models.ForeignKey(OvsBridge,null=True,on_delete=models.CASCADE)
+    bridge = models.ForeignKey(OvsBridge,on_delete=models.CASCADE)
     name = models.fields.CharField(max_length=50) #the interface bridge name
     
     class Type(models.TextChoices):
@@ -55,3 +55,17 @@ class Port(models.Model):
     active = models.fields.BooleanField(default=True) #A parameter to the policing algorithm to indicate 
     ingress_policing_burst = models.fields.IntegerField(blank=True,null=True) #the maximum amount of data (in Kb) that
      #this interface can send beyond the policing rate.If not set, this policy will be disabled.
+
+class TrunkPort(models.Model):
+    port = models.ForeignKey(Port,on_delete=models.CASCADE)
+    trunk = models.fields.IntegerField()
+    
+class IpPort(models.Model):
+    port = models.ForeignKey(Port,on_delete=models.CASCADE)
+    ip = models.fields.IntegerField()
+    
+class OtherPortConfig(models.Model):
+    def __str__(self) -> str:
+        return f'{self.other_config}'
+    other_config = models.fields.CharField(max_length=50)
+    port = models.ForeignKey(Port,null=True,on_delete=models.CASCADE)

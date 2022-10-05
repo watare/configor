@@ -1,0 +1,530 @@
+- model: admin.logentry
+  pk: 1
+  fields:
+    action_time: 2022-10-05 07:03:10.352747+00:00
+    user: 1
+    content_type: 7
+    object_id: '1'
+    object_repr: br1
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 2
+  fields:
+    action_time: 2022-10-05 07:14:00.189995+00:00
+    user: 1
+    content_type: 8
+    object_id: '1'
+    object_repr: jojo
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 3
+  fields:
+    action_time: 2022-10-05 07:14:08.417616+00:00
+    user: 1
+    content_type: 8
+    object_id: '2'
+    object_repr: julien
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 4
+  fields:
+    action_time: 2022-10-05 07:17:35.227518+00:00
+    user: 1
+    content_type: 7
+    object_id: '2'
+    object_repr: br2
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 5
+  fields:
+    action_time: 2022-10-05 07:17:55.912806+00:00
+    user: 1
+    content_type: 8
+    object_id: '3'
+    object_repr: tututut
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 6
+  fields:
+    action_time: 2022-10-05 08:18:18.703118+00:00
+    user: 1
+    content_type: 9
+    object_id: '1'
+    object_repr: une tétine
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 7
+  fields:
+    action_time: 2022-10-05 09:03:48.495685+00:00
+    user: 1
+    content_type: 10
+    object_id: '1'
+    object_repr: TrunkPort object (1)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 8
+  fields:
+    action_time: 2022-10-05 09:03:54.966848+00:00
+    user: 1
+    content_type: 10
+    object_id: '2'
+    object_repr: TrunkPort object (2)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: auth.permission
+  pk: 1
+  fields:
+    name: Can add log entry
+    content_type: 1
+    codename: add_logentry
+- model: auth.permission
+  pk: 2
+  fields:
+    name: Can change log entry
+    content_type: 1
+    codename: change_logentry
+- model: auth.permission
+  pk: 3
+  fields:
+    name: Can delete log entry
+    content_type: 1
+    codename: delete_logentry
+- model: auth.permission
+  pk: 4
+  fields:
+    name: Can view log entry
+    content_type: 1
+    codename: view_logentry
+- model: auth.permission
+  pk: 5
+  fields:
+    name: Can add permission
+    content_type: 2
+    codename: add_permission
+- model: auth.permission
+  pk: 6
+  fields:
+    name: Can change permission
+    content_type: 2
+    codename: change_permission
+- model: auth.permission
+  pk: 7
+  fields:
+    name: Can delete permission
+    content_type: 2
+    codename: delete_permission
+- model: auth.permission
+  pk: 8
+  fields:
+    name: Can view permission
+    content_type: 2
+    codename: view_permission
+- model: auth.permission
+  pk: 9
+  fields:
+    name: Can add group
+    content_type: 3
+    codename: add_group
+- model: auth.permission
+  pk: 10
+  fields:
+    name: Can change group
+    content_type: 3
+    codename: change_group
+- model: auth.permission
+  pk: 11
+  fields:
+    name: Can delete group
+    content_type: 3
+    codename: delete_group
+- model: auth.permission
+  pk: 12
+  fields:
+    name: Can view group
+    content_type: 3
+    codename: view_group
+- model: auth.permission
+  pk: 13
+  fields:
+    name: Can add user
+    content_type: 4
+    codename: add_user
+- model: auth.permission
+  pk: 14
+  fields:
+    name: Can change user
+    content_type: 4
+    codename: change_user
+- model: auth.permission
+  pk: 15
+  fields:
+    name: Can delete user
+    content_type: 4
+    codename: delete_user
+- model: auth.permission
+  pk: 16
+  fields:
+    name: Can view user
+    content_type: 4
+    codename: view_user
+- model: auth.permission
+  pk: 17
+  fields:
+    name: Can add content type
+    content_type: 5
+    codename: add_contenttype
+- model: auth.permission
+  pk: 18
+  fields:
+    name: Can change content type
+    content_type: 5
+    codename: change_contenttype
+- model: auth.permission
+  pk: 19
+  fields:
+    name: Can delete content type
+    content_type: 5
+    codename: delete_contenttype
+- model: auth.permission
+  pk: 20
+  fields:
+    name: Can view content type
+    content_type: 5
+    codename: view_contenttype
+- model: auth.permission
+  pk: 21
+  fields:
+    name: Can add session
+    content_type: 6
+    codename: add_session
+- model: auth.permission
+  pk: 22
+  fields:
+    name: Can change session
+    content_type: 6
+    codename: change_session
+- model: auth.permission
+  pk: 23
+  fields:
+    name: Can delete session
+    content_type: 6
+    codename: delete_session
+- model: auth.permission
+  pk: 24
+  fields:
+    name: Can view session
+    content_type: 6
+    codename: view_session
+- model: auth.permission
+  pk: 25
+  fields:
+    name: Can add ovs bridges
+    content_type: 7
+    codename: add_ovsbridges
+- model: auth.permission
+  pk: 26
+  fields:
+    name: Can change ovs bridges
+    content_type: 7
+    codename: change_ovsbridges
+- model: auth.permission
+  pk: 27
+  fields:
+    name: Can delete ovs bridges
+    content_type: 7
+    codename: delete_ovsbridges
+- model: auth.permission
+  pk: 28
+  fields:
+    name: Can view ovs bridges
+    content_type: 7
+    codename: view_ovsbridges
+- model: auth.permission
+  pk: 29
+  fields:
+    name: Can add other bridge config
+    content_type: 8
+    codename: add_otherbridgeconfig
+- model: auth.permission
+  pk: 30
+  fields:
+    name: Can change other bridge config
+    content_type: 8
+    codename: change_otherbridgeconfig
+- model: auth.permission
+  pk: 31
+  fields:
+    name: Can delete other bridge config
+    content_type: 8
+    codename: delete_otherbridgeconfig
+- model: auth.permission
+  pk: 32
+  fields:
+    name: Can view other bridge config
+    content_type: 8
+    codename: view_otherbridgeconfig
+- model: auth.permission
+  pk: 33
+  fields:
+    name: Can add ovs bridge
+    content_type: 7
+    codename: add_ovsbridge
+- model: auth.permission
+  pk: 34
+  fields:
+    name: Can change ovs bridge
+    content_type: 7
+    codename: change_ovsbridge
+- model: auth.permission
+  pk: 35
+  fields:
+    name: Can delete ovs bridge
+    content_type: 7
+    codename: delete_ovsbridge
+- model: auth.permission
+  pk: 36
+  fields:
+    name: Can view ovs bridge
+    content_type: 7
+    codename: view_ovsbridge
+- model: auth.permission
+  pk: 37
+  fields:
+    name: Can add port
+    content_type: 9
+    codename: add_port
+- model: auth.permission
+  pk: 38
+  fields:
+    name: Can change port
+    content_type: 9
+    codename: change_port
+- model: auth.permission
+  pk: 39
+  fields:
+    name: Can delete port
+    content_type: 9
+    codename: delete_port
+- model: auth.permission
+  pk: 40
+  fields:
+    name: Can view port
+    content_type: 9
+    codename: view_port
+- model: auth.permission
+  pk: 41
+  fields:
+    name: Can add trunk port
+    content_type: 10
+    codename: add_trunkport
+- model: auth.permission
+  pk: 42
+  fields:
+    name: Can change trunk port
+    content_type: 10
+    codename: change_trunkport
+- model: auth.permission
+  pk: 43
+  fields:
+    name: Can delete trunk port
+    content_type: 10
+    codename: delete_trunkport
+- model: auth.permission
+  pk: 44
+  fields:
+    name: Can view trunk port
+    content_type: 10
+    codename: view_trunkport
+- model: auth.permission
+  pk: 45
+  fields:
+    name: Can add other port config
+    content_type: 11
+    codename: add_otherportconfig
+- model: auth.permission
+  pk: 46
+  fields:
+    name: Can change other port config
+    content_type: 11
+    codename: change_otherportconfig
+- model: auth.permission
+  pk: 47
+  fields:
+    name: Can delete other port config
+    content_type: 11
+    codename: delete_otherportconfig
+- model: auth.permission
+  pk: 48
+  fields:
+    name: Can view other port config
+    content_type: 11
+    codename: view_otherportconfig
+- model: auth.permission
+  pk: 49
+  fields:
+    name: Can add ip port
+    content_type: 12
+    codename: add_ipport
+- model: auth.permission
+  pk: 50
+  fields:
+    name: Can change ip port
+    content_type: 12
+    codename: change_ipport
+- model: auth.permission
+  pk: 51
+  fields:
+    name: Can delete ip port
+    content_type: 12
+    codename: delete_ipport
+- model: auth.permission
+  pk: 52
+  fields:
+    name: Can view ip port
+    content_type: 12
+    codename: view_ipport
+- model: auth.user
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$390000$9xJPtzPpUijNybvREWBboL$aA7EKJn2WtSah+lfBd00ZBbHW366dlUo6pHMiG1ppnw=
+    last_login: 2022-10-05 07:13:40.040770+00:00
+    is_superuser: true
+    username: root
+    first_name: ''
+    last_name: ''
+    email: ''
+    is_staff: true
+    is_active: true
+    date_joined: 2022-10-05 07:02:20.212562+00:00
+    groups: []
+    user_permissions: []
+- model: contenttypes.contenttype
+  pk: 1
+  fields:
+    app_label: admin
+    model: logentry
+- model: contenttypes.contenttype
+  pk: 2
+  fields:
+    app_label: auth
+    model: permission
+- model: contenttypes.contenttype
+  pk: 3
+  fields:
+    app_label: auth
+    model: group
+- model: contenttypes.contenttype
+  pk: 4
+  fields:
+    app_label: auth
+    model: user
+- model: contenttypes.contenttype
+  pk: 5
+  fields:
+    app_label: contenttypes
+    model: contenttype
+- model: contenttypes.contenttype
+  pk: 6
+  fields:
+    app_label: sessions
+    model: session
+- model: contenttypes.contenttype
+  pk: 7
+  fields:
+    app_label: ovs_conf
+    model: ovsbridge
+- model: contenttypes.contenttype
+  pk: 8
+  fields:
+    app_label: ovs_conf
+    model: otherbridgeconfig
+- model: contenttypes.contenttype
+  pk: 9
+  fields:
+    app_label: ovs_conf
+    model: port
+- model: contenttypes.contenttype
+  pk: 10
+  fields:
+    app_label: ovs_conf
+    model: trunkport
+- model: contenttypes.contenttype
+  pk: 11
+  fields:
+    app_label: ovs_conf
+    model: otherportconfig
+- model: contenttypes.contenttype
+  pk: 12
+  fields:
+    app_label: ovs_conf
+    model: ipport
+- model: sessions.session
+  pk: 3n77uclhjqqhr5cjj34d82mhuxprfwgt
+  fields:
+    session_data: .eJxVjMsOwiAQRf-FtSG8Cy7d-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2JlJdvrdENIjtx3QHdqt89TbuszId4UfdPBrp_y8HO7fQYVRv3VOBb1QgbwNQKi9c8IVBSajJasTUHDCpImM0yQnGSjrIgoJGQxaZdn7A_dtOAc:1ofyQi:rU19bN03h2V7s1T58hv0Ox8MX2XTiiShWB9SepcvtyY
+    expire_date: 2022-10-19 07:02:56.659522+00:00
+- model: sessions.session
+  pk: 954ktr2p1wfcteuw7m0w3zpb8ts429qg
+  fields:
+    session_data: .eJxVjMsOwiAQRf-FtSG8Cy7d-w1khgGpGkhKuzL-uzbpQrf3nHNfLMK21riNvMSZ2JlJdvrdENIjtx3QHdqt89TbuszId4UfdPBrp_y8HO7fQYVRv3VOBb1QgbwNQKi9c8IVBSajJasTUHDCpImM0yQnGSjrIgoJGQxaZdn7A_dtOAc:1ofyb6:p9Efu7FjaJCsTcr_i4Kg_hBIoBmpjPckHA5KGJrCIK0
+    expire_date: 2022-10-19 07:13:40.046105+00:00
+- model: ovs_conf.ovsbridge
+  pk: 1
+  fields:
+    name: br1
+    rstp_enable: true
+    enable_ipv6: true
+- model: ovs_conf.ovsbridge
+  pk: 2
+  fields:
+    name: br2
+    rstp_enable: true
+    enable_ipv6: true
+- model: ovs_conf.otherbridgeconfig
+  pk: 1
+  fields:
+    other_config: jojo
+    bridge: 1
+- model: ovs_conf.otherbridgeconfig
+  pk: 2
+  fields:
+    other_config: julien
+    bridge: 1
+- model: ovs_conf.otherbridgeconfig
+  pk: 3
+  fields:
+    other_config: tututut
+    bridge: 2
+- model: ovs_conf.port
+  pk: 1
+  fields:
+    bridge: 1
+    name: une tétine
+    type: system
+    interface: ''
+    tag: null
+    vlan_mode: native-tagged
+    mac: ''
+    remote_ip: ''
+    remote_port: 4789
+    key: null
+    ingress_policy_rate: null
+    active: true
+    ingress_policing_burst: null
+- model: ovs_conf.trunkport
+  pk: 1
+  fields:
+    port: 1
+    trunk: 40
+- model: ovs_conf.trunkport
+  pk: 2
+  fields:
+    port: 1
+    trunk: 45

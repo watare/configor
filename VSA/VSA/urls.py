@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from ovs_conf import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("generate_ovs/",views.generate_ovs,name='generate_ovs')
 ]
