@@ -19,5 +19,7 @@ from ovs_conf import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("generate_ovs/",views.generate_ovs,name='generate_ovs')
+    path("generate_ovs/",views.generate_ovs,name='generate_ovs'),
+    path("bridge_create/",views.bridge_create,name='bridge_create'),
+    path("bridge_list/",views.bridge_list,name='bridge_list')
 ]

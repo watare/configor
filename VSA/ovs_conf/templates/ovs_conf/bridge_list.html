@@ -1,0 +1,10 @@
+{% extends 'ovs_conf/base.html'%}
+{% block content %}
+
+          
+    <ul>
+        {% for bridge in bridges %}
+            <li>{{ bridge.name}}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
