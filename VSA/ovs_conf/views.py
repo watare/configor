@@ -5,6 +5,7 @@ import yaml
 from boltons.iterutils import remap
 from ovs_conf.form import BridgeForm, PortForm
 def bridge_create(request):
+    bridges = OvsBridge.objects.all()
     if request.method == 'POST':
         form = BridgeForm(request.POST)
         if form.is_valid():
@@ -12,7 +13,7 @@ def bridge_create(request):
             return redirect('ports_create',bridge.id)  
     else:
         form = BridgeForm()
-    return render(request,'ovs_conf/bridge_create.html',{'form':form})
+    return render(request,'ovs_conf/bridge_create.html',{'form':form,'bridges':bridges})
 
 def bridge_list(request):
     bridges = OvsBridge.objects.all()
