@@ -1,15 +1,15 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig
 import yaml
 from boltons.iterutils import remap
-from ovs_conf.form import BridgeForm
+from ovs_conf.form import BridgeForm, PortForm
 def bridge_create(request):
     if request.method == 'POST':
         form = BridgeForm(request.POST)
         if form.is_valid():
             bridge = form.save()
-            return redirect('bridge_list')  
+            return redirect('ports_create',bridge.id)  
     else:
         form = BridgeForm()
     return render(request,'ovs_conf/bridge_create.html',{'form':form})
@@ -21,7 +21,24 @@ def bridge_list(request):
         'ovs_conf/bridge_list.html',
         {'bridges' : bridges})
         
-    
+def ports_create(request,name):
+    ports = Port.objects.filter(id=name)
+    if request.method == 'POST':
+        form = PortForm(request.POST)
+        if form.is_valid():
+            port = form.save()
+            print(name)
+            return redirect('ports_create',name)
+    else:
+            
+        form = PortForm()
+        #print("toto"+ form.get_initial_for_field(form.fields['name'], 'name'))
+        
+    return render(request,'ovs_conf/ports_create.html',{'form':form ,'ports':ports})
+
+
+
+        
 def generate_ovs(request):
     # generate the ovs configuration from the database
     # serving the file

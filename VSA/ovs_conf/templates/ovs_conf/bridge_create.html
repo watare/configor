@@ -1,9 +1,17 @@
 {% extends 'ovs_conf/base.html'%}
 {% block content %}
-<p>Créer un nouveau bridge:</p>
- <form action="" method="post" novalidate>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Envoyer">
- </form>
+
+<div class="card">
+   <div class="card-header">
+     Add a new Bridge
+   </div>
+   <div class="card-body">
+      <div class="form-group">
+         <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Create">
+        </div>
+   </div>
+
 {% endblock %}

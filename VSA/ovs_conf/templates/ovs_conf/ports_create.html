@@ -1,0 +1,16 @@
+{% extends 'ovs_conf/base.html'%}
+{% block content %}
+   <h3>Add new ports:</h3>
+   <div class="form-group">
+      <form action="" method="post" novalidate>
+         {% csrf_token %}
+         {{ form.as_p }}
+         <input type="submit" value="Create port">
+      </form>
+   </div>
+   <div>
+      {% for port in ports %}
+      {{ port.name}}
+      {% endfor %}
+   </div>
+{% endblock %}
