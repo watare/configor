@@ -3,14 +3,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig
 import yaml
 from boltons.iterutils import remap
-from ovs_conf.form import BridgeForm, PortForm
+from ovs_conf.form import BridgeForm, PortForm, BridgeFormRo    
 def bridge_create(request):
     bridges = OvsBridge.objects.all()
     if request.method == 'POST':
         form = BridgeForm(request.POST)
         if form.is_valid():
             bridge = form.save()
-            return redirect('ports_create',bridge.id)  
+            return redirect('bridgeDetails',bridge.id)  
     else:
         form = BridgeForm()
     return render(request,'ovs_conf/bridge_create.html',{'form':form,'bridges':bridges})
@@ -21,7 +21,17 @@ def bridge_list(request):
         request,
         'ovs_conf/bridge_list.html',
         {'bridges' : bridges})
-        
+
+def bridgeDetails(request,id):
+    bridge = OvsBridge.objects.get(id=id)
+    bridgeForm = BridgeFormRo(instance=bridge)
+    ports = Port.objects.filter(bridge=id)
+    portsList = []
+    for port in ports:
+        portForm = PortForm(instance=port)
+        portsList.append(portForm)
+    return render(request,'ovs_conf/bridgeDetails.html',{'bridgeForm':bridgeForm,'portsList':portsList})
+            
 def ports_create(request,name):
     ports = Port.objects.filter(id=name)
     if request.method == 'POST':

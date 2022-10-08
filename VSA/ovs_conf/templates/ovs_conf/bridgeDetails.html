@@ -1,0 +1,98 @@
+{% extends 'ovs_conf/base.html'%}
+{% block content %}
+    <div class="form-group">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {{ bridgeForm.as_p }}
+    </div>
+    <div class="card ">
+        <div class="card-header">
+        Ports
+        </div>
+        <div class="card-body">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Interface</th>
+                                <th scope="col">Tag</th>
+                                <th scope="col">Vlan mode</th>
+                                <th scope="col">Mac</th>
+                                <th scope="col">Remote ip</th>
+                                <th scope="col">Remote port</th>
+                                <th scope="col">key</th>
+                              </tr>
+                        </thead>
+                       <tbody>
+                          {% for port in portsList %}
+                          <tr>
+                             <td>
+                                <div class="form-group">
+                                    <form action="" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {{ port.name}}
+                                </div>
+                             </td>
+                             <td>
+                                <div class="form-group">
+                                    <form action="" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {{ port.type}}
+                                </div>
+                             </td>
+                             <td>
+                                <div class="form-group">
+                                    <form action="" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {{ port.interface}}
+                                </div>
+                             </td>
+                             <td>
+                                <div class="form-group">
+                                    <form action="" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {{ port.tag}}
+                                </div>
+                             </td>
+                             <td>
+                                <div class="form-group">
+                                    <form action="" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {{ port.vlan_mode}}
+                                </div>
+                             </td>
+                             <td>
+                                <div class="form-group">
+                                    <form action="" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {{ port.mac}}
+                                </div>
+                             </td>
+                             <td>
+                                <div class="form-group">
+                                    <form action="" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {{ port.remote_ip}}
+                                </div>
+                             </td>
+                             <td>
+                                <div class="form-group">
+                                    <form action="" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {{ port.remote_port}}
+                                </div>
+                             </td>
+                             <td>
+                                <div class="form-group">
+                                    <form action="" method="post" novalidate>
+                                        {% csrf_token %}
+                                        {{ port.key}}
+                                </div>
+                             </td>   
+                          </tr>
+                          {% endfor %}  
+                       </tbody>
+                    </table>
+        </div>
+{% endblock %}
