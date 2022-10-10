@@ -1,0 +1,33 @@
+{% extends 'ovs_conf/base.html'%}
+{% block content %}
+
+          
+<div class="card">
+    <div class="card-header">
+       Bridge to add to the configuration file
+    </div>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Select</th>
+                              </tr>
+                        </thead>  
+                    <tbody>
+                        {% for bridge in bridges %}
+                        <tr>
+                            <td>
+                                {{ bridge.name}} {{ bridge.select}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+        </div>
+        <input type="submit" value="generate">
+    </form>
+ </div>
+{% endblock %}

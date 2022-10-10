@@ -26,73 +26,106 @@
                         </thead>
                        <tbody>
                           {% for port in portsList %}
-                          <tr>
-                             <td>
-                                <div class="form-group">
-                                    <form action="" method="post" novalidate>
-                                        {% csrf_token %}
-                                        {{ port.name}}
-                                </div>
-                             </td>
-                             <td>
-                                <div class="form-group">
-                                    <form action="" method="post" novalidate>
-                                        {% csrf_token %}
-                                        {{ port.type}}
-                                </div>
-                             </td>
-                             <td>
-                                <div class="form-group">
-                                    <form action="" method="post" novalidate>
-                                        {% csrf_token %}
-                                        {{ port.interface}}
-                                </div>
-                             </td>
-                             <td>
-                                <div class="form-group">
-                                    <form action="" method="post" novalidate>
-                                        {% csrf_token %}
-                                        {{ port.tag}}
-                                </div>
-                             </td>
-                             <td>
-                                <div class="form-group">
-                                    <form action="" method="post" novalidate>
-                                        {% csrf_token %}
-                                        {{ port.vlan_mode}}
-                                </div>
-                             </td>
-                             <td>
-                                <div class="form-group">
-                                    <form action="" method="post" novalidate>
-                                        {% csrf_token %}
-                                        {{ port.mac}}
-                                </div>
-                             </td>
-                             <td>
-                                <div class="form-group">
-                                    <form action="" method="post" novalidate>
-                                        {% csrf_token %}
-                                        {{ port.remote_ip}}
-                                </div>
-                             </td>
-                             <td>
-                                <div class="form-group">
-                                    <form action="" method="post" novalidate>
-                                        {% csrf_token %}
-                                        {{ port.remote_port}}
-                                </div>
-                             </td>
-                             <td>
-                                <div class="form-group">
-                                    <form action="" method="post" novalidate>
-                                        {% csrf_token %}
-                                        {{ port.key}}
-                                </div>
-                             </td>   
+                          <div class="form-group">
+                            <form action="" method="post" novalidate>
+                            {% csrf_token %}
+                            <tr>
+                                <td>
+                                    {{ port.name}}
+                                </td>
+                                <td>
+                                    {{ port.type}}
+                                </td>
+                                <td>
+                                    {{ port.interface}}
+                                </td>
+                                <td>
+                                    {{ port.tag}}
+                                </td>
+                                <td>
+                                    {{ port.vlan_mode}}
+                                </td>
+                                <td>
+                                    {{ port.mac}}
+                                </td>
+                                <td>
+                                    {{ port.remote_ip}}
+                                </td>
+                                <td>
+                                    {{ port.remote_port}}
+                                </td>
+                                <td>
+                                    {{ port.key}}
+                                </td>   
                           </tr>
                           {% endfor %}  
+                          </form>
                        </tbody>
                     </table>
         </div>
+        <div class="card ">
+            <div class="card-header">
+                Add Port
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <form action="" method="post" novalidate>
+                        {% csrf_token %}
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Bridge</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Interface</th>
+                                    <th scope="col">Tag</th>
+                                    <th scope="col">Vlan mode</th>
+                                    <th scope="col">Mac</th>
+                                    <th scope="col">Remote ip</th>
+                                    <th scope="col">Remote port</th>
+                                    <th scope="col">key</th>
+                                  </tr>
+                            </thead>  
+                            <tbody>     
+                                <tr>
+                                    <td>
+                                        {{ newPort.bridge}}
+                                    </td>
+                                    <td>
+                                        {{ newPort.name}}
+                                    </td>
+                                    <td>
+                                        {{ newPort.type}}
+                                    </td>
+                                    <td>
+                                        {{ newPort.interface}}
+                                    </td>
+                                    <td>
+                                        {{ newPort.tag}}
+                                    </td>
+                                    <td>
+                                        {{ newPort.vlan_mode}}
+                                    </td>
+                                    <td>
+                                        {{ newPort.mac}}
+                                    </td>
+                                    <td>
+                                        {{ newPort.remote_ip}}
+                                    </td>
+                                    <td>
+                                        {{ newPort.remote_port}}
+                                    </td>
+                                    <td>
+                                        {{ newPort.key}}
+                                    </td>   
+                                        </tr>
+                                    <tr>
+                                    
+                                    
+                            </tbody>     
+                        </table>
+                        <input type="submit" value="Create">
+                    </form>
+            </div>
+
 {% endblock %}
