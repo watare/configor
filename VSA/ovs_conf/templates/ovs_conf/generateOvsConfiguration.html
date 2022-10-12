@@ -6,33 +6,28 @@
     <div class="card-header">
        Bridge to add to the configuration file
     </div>
-    <form action="" method="post" novalidate>
-        {% csrf_token %}
-        <div class="card-body">
-                    <table class="table">
-                        <thead>
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            <div class="card-body">
+                <table class="table">
+                    <form method="post">
+                        {{ formset.management_form }}
+                        <table>
+                            {% for form in formset %}
                             <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Select</th>
-                              </tr>
-                        </thead>  
-                    <tbody>
-                        {% for bridge in bridges %}
-                        <tr>
-                            <td>
-                                {{ bridge.name}} {{ bridge.select}}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    </table>
-        </div>
-        <input type="submit" value="generate">
-    </form>
-    <form method="post">
-        <table>
-            {{ formset }}
-        </table>
-    </form>
- </div>
+                                <td>
+                                    {{ form.select }}
+                                </td>
+                                <td>
+                                    {{form.name}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </form>
+                </table>
+                <input type="submit" value="generate_formset">
+            </div>
+        </form>
+    </div>
 {% endblock %}

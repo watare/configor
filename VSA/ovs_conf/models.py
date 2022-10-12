@@ -5,6 +5,7 @@ class OvsBridge(models.Model):
     
     def __str__(self) -> str:
         return f'{self.name}'
+    ordering = ("name", )
     name = models.fields.CharField(max_length=50)
     rstp_enable = models.fields.BooleanField(default=False)
     enable_ipv6 = models.fields.BooleanField(default=False)

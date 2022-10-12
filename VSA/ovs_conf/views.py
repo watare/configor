@@ -65,43 +65,50 @@ def ports_create(request,name):
 def generateOvsConfiguration(request):
     bridges = OvsBridge.objects.all()
     bridgeList = []
+    bridgeList = []
     for bridge in bridges:
         bridgeList.append(
-            BridgeForm(instance=OvsBridge.objects.get(pk=bridge.id))
-        )
-
-    bridges = bridgeList
+            {'name':bridge,'select':''})
+    # print(fList)
     
     Formset = formset_factory(BridgeFormSelect,extra=0)
-    formset = Formset(initial=[{'name':'toto','select':'on'},{'name':'tutu','select':''}])
-    print(formset.as_table())
+    formset = Formset(initial=bridgeList)
+    # print(formset.as_table())
     if request.method == 'POST':
-        bridgetoSet = []
         reqDic = dict(request.POST)
-        print(reqDic)
-        # for i in range (0,len(reqDic['name'])-1):
-            
-        #     if (reqDic['select'][i] == 'on'):
-        #         # pass
-        #         bridgetoSet.append(reqDic['name'][i])
-        # # print(bridgetoSet)
+        # i=0
+        # print(reqDic['form-'+str(i)+'-select'][0])
+        bridgetoSet = []
+        for i in range(0,int(reqDic['form-TOTAL_FORMS'][0])-1):
+            # pass
+            if ('form-'+str(i)+'-select') in reqDic:
+                # print (reqDic['form-'+str(i)+'-select'])
+                bridgetoSet.append(OvsBridge.objects.get(name=reqDic['form-'+str(i)+'-name'][0]))
+        print(bridgetoSet)
+        
+        response = HttpResponse(
+        content_type='text-plain')
+        response['Content-Disposition'] = 'attachment; filename=ovsConf.yml'
+        
+        response.writelines(generate_ovs_param(bridgetoSet))
+        return response
         # return redirect('/generate_ovs/',bridgetoSet)
             
    # form = PortForm(request.POST)
    # if form.is_valid():
    #     port = form.save()
    #     print(name)
-    return render(request,'ovs_conf/generateOvsConfiguration.html',{'bridges':bridges,'formset':formset})      
+    return render(request,'ovs_conf/generateOvsConfiguration.html',{'formset':formset})      
   
-def generate_ovs_param(request,bridgeList):
+def generate_ovs_param(bridgeList):
     # generate the ovs configuration from the database
     # serving the file
-    response = HttpResponse(
-        content_type='text-plain')
-    response['Content-Disposition'] = 'attachment; filename=ovs.yml'
+    
     
     # query the database
     ovsbridges = bridgeList
+    print(ovsbridges)
+    
     ovsdic = []
     
     # Loop based on foreing keys to retreive all elements for each bridge
@@ -145,10 +152,8 @@ def generate_ovs_param(request,bridgeList):
         drop_falsey = lambda path, key, value: bool(value)
         ovsdiccleaned = remap(ovsdic, visit=drop_falsey)
         ovs_conf = yaml.dump(ovsdiccleaned,sort_keys=False)
-
-    response.writelines(ovs_conf)
-    return response
-def generate_ovs(request):
+    return ovs_conf
+def generate_ovs(request,bridgetoSet):
     # generate the ovs configuration from the database
     # serving the file
     response = HttpResponse(
@@ -156,7 +161,7 @@ def generate_ovs(request):
     response['Content-Disposition'] = 'attachment; filename=ovs.yml'
     
     # query the database
-    ovsbridges = OvsBridge.objects.all()
+    ovsbridges = OvsBridge.objects.filter(name=bridgetoSet)
     ovsdic = []
     
     # Loop based on foreing keys to retreive all elements for each bridge

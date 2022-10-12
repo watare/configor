@@ -8,7 +8,7 @@ from django import forms
 class BridgeFormSelect(forms.ModelForm):
   select = forms.BooleanField(
     label='select',
-    
+
     widget=forms.CheckboxInput(attrs={'class':'form-check-label'})
     )
   class Meta:
@@ -18,7 +18,7 @@ class BridgeFormSelect(forms.ModelForm):
     'name' : ''        
     }
     widgets ={
-          'name' : forms.TextInput(attrs={'class':'form-control','placeholder':'Bridge name'})   
+          'name' : forms.TextInput(attrs={'class':'form-control','readonly':'readonly'})   
     }
 class BridgeForm(forms.ModelForm):
   select = forms.BooleanField(
