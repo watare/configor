@@ -72,8 +72,8 @@ def generateOvsConfiguration(request):
 
     bridges = bridgeList
     
-    Formset = formset_factory(BridgeFormSelect,extra=1)
-    formset = Formset(initial=[{'name':'toto','select':''}])
+    Formset = formset_factory(BridgeFormSelect,extra=0)
+    formset = Formset(initial=[{'name':'toto','select':'on'},{'name':'tutu','select':''}])
     print(formset.as_table())
     if request.method == 'POST':
         bridgetoSet = []
