@@ -1,10 +1,11 @@
+from django.forms import formset_factory
 from turtle import end_fill
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig
 import yaml
 from boltons.iterutils import remap
-from ovs_conf.form import BridgeForm, PortForm, BridgeFormRo,PortFormAdd        
+from ovs_conf.form import BridgeForm, BridgeFormSelect, PortForm, BridgeFormRo,PortFormAdd    
 def bridge_create(request):
     bridges = OvsBridge.objects.all()
     if request.method == 'POST':
@@ -71,6 +72,9 @@ def generateOvsConfiguration(request):
 
     bridges = bridgeList
     
+    Formset = formset_factory(BridgeFormSelect,extra=1)
+    formset = Formset(initial=[{'name':'toto','select':''}])
+    print(formset.as_table())
     if request.method == 'POST':
         bridgetoSet = []
         reqDic = dict(request.POST)
@@ -87,7 +91,7 @@ def generateOvsConfiguration(request):
    # if form.is_valid():
    #     port = form.save()
    #     print(name)
-    return render(request,'ovs_conf/generateOvsConfiguration.html',{'bridges':bridges})      
+    return render(request,'ovs_conf/generateOvsConfiguration.html',{'bridges':bridges,'formset':formset})      
   
 def generate_ovs_param(request,bridgeList):
     # generate the ovs configuration from the database

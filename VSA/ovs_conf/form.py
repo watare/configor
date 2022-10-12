@@ -4,6 +4,22 @@ from faulthandler import disable
 from unicodedata import name
 from ovs_conf.models import OvsBridge, Port
 from django import forms
+
+class BridgeFormSelect(forms.ModelForm):
+  select = forms.BooleanField(
+    label='select',
+    
+    widget=forms.CheckboxInput(attrs={'class':'form-check-label'})
+    )
+  class Meta:
+    model = OvsBridge
+    fields = ('name',)
+    labels ={
+    'name' : ''        
+    }
+    widgets ={
+          'name' : forms.TextInput(attrs={'class':'form-control','placeholder':'Bridge name'})   
+    }
 class BridgeForm(forms.ModelForm):
   select = forms.BooleanField(
       label='select',
