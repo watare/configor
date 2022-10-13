@@ -6,6 +6,10 @@ from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,Ot
 import yaml
 from boltons.iterutils import remap
 from ovs_conf.form import BridgeForm, BridgeFormSelect, PortForm, BridgeFormRo,PortFormAdd    
+def base(request):
+    bridges= OvsBridge.objects.all()
+    return render(request, "ovs_conf/base.html", {'bridges':bridges})
+
 def bridge_create(request):
     bridges = OvsBridge.objects.all()
     if request.method == 'POST':
@@ -25,6 +29,7 @@ def bridge_list(request):
         {'bridges' : bridges})
 
 def bridgeDetails(request,id):
+    bridges = OvsBridge.objects.all()
     bridge = OvsBridge.objects.get(id=id)
     bridgeForm = BridgeFormRo(instance=bridge)
     ports = Port.objects.filter(bridge=id)
@@ -44,7 +49,7 @@ def bridgeDetails(request,id):
         else:
             print('fail add_port')
             newPort = PortFormAdd() 
-    return render(request,'ovs_conf/bridgeDetails.html',{'bridgeForm':bridgeForm,'portsList':portsList,'newPort':newPort})
+    return render(request,'ovs_conf/bridgeDetails.html',{'bridgeForm':bridgeForm,'portsList':portsList,'newPort':newPort,'bridges':bridges})
             
 def ports_create(request,name):
     ports = Port.objects.filter(id=name)
@@ -98,7 +103,7 @@ def generateOvsConfiguration(request):
    # if form.is_valid():
    #     port = form.save()
    #     print(name)
-    return render(request,'ovs_conf/generateOvsConfiguration.html',{'formset':formset})      
+    return render(request,'ovs_conf/generateOvsConfiguration.html',{'formset':formset,'bridges':bridges})      
   
 def generate_ovs_param(bridgeList):
     # generate the ovs configuration from the database

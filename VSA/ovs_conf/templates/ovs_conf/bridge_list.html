@@ -2,9 +2,44 @@
 {% block content %}
 
           
-    <ul>
-        {% for bridge in bridges %}
-            <li>{{ bridge.name}}</li>
-        {% endfor %}
-    </ul>
+<div class="card">
+    <div class="card-header">
+       Existing bridges
+    </div>
+    <div class="card-body">
+                <table class="table">
+                   <tbody>
+                      {% for bridge in bridges %}
+                      <tr>
+                         <td>
+                            <a class="btn btn-dark" href="{% url 'bridgeDetails' bridge.id  %}" role="button">
+                                {{ bridge.name}}
+                            </a>
+                            </button>
+                           
+                         </td>
+                         {% if bridge.rstp_enable %}
+                            <td>
+                                <button type="button" class="btn btn-success">rstp_enable</button>
+                            </td>
+                          {% else %}
+                            <td>
+                                <button type="button" class="btn btn-warning">rstp_disable</button>
+                            </td>  
+                        {% endif %}
+                        {% if bridge.enable_ipv6 %}
+                        <td>
+                            <button type="button" class="btn btn-success">ipv6_enable</button>
+                        </td>
+                      {% else %}
+                        <td>
+                            <button type="button" class="btn btn-warning">ipv6_disable</button>
+                        </td>  
+                    {% endif %}
+                      </tr>
+                      {% endfor %}
+                   </tbody>
+                </table>
+    </div>
+ </div>
 {% endblock %}
