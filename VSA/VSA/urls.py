@@ -19,11 +19,12 @@ from ovs_conf import views
 
 urlpatterns = [
     path("/admin/", admin.site.urls),
+    path("",views.base),
     path("base/",views.base,name='base'),
     path("generate_ovs/",views.generate_ovs,name='generate_ovs'),
     path("bridge_create/",views.bridge_create,name='bridge_create'),
     path("bridgeDetails/<int:id>",views.bridgeDetails,name='bridgeDetails'),
     path("bridge_list/",views.bridge_list,name='bridge_list'),
     path("generateOvsConfiguration/",views.generateOvsConfiguration,name='generateOvsConfiguration'),
-    path("generateVmConfiguration/",views.generateVmConfiguration,name='generateVmConfig')
+    path("generateVmConfiguration/",views.generateVmConfiguration,name='generateVmConfiguration')
 ]
