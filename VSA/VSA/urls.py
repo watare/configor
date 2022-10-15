@@ -25,4 +25,5 @@ urlpatterns = [
     path("bridgeDetails/<int:id>",views.bridgeDetails,name='bridgeDetails'),
     path("bridge_list/",views.bridge_list,name='bridge_list'),
     path("generateOvsConfiguration/",views.generateOvsConfiguration,name='generateOvsConfiguration'),
+    path("generateVmConfiguration/",views.generateVmConfiguration,name='generateVmConfig')
 ]
