@@ -1,2 +1,2 @@
 from .ovsViews import *
-from .vmViews  import *
+from .vmsViews  import *
