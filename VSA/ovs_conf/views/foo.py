@@ -31,22 +31,22 @@ class Elem():
             node.text = self.text
             
             
-root = ET.Element('root')
-print(root)      
-first = Elem('first')
-first.attributes['toto'] ='tutu'
-# print(first.attributes.key())
+# root = ET.Element('root')
+# print(root)      
+# first = Elem('first')
+# first.attributes['toto'] ='tutu'
+# # print(first.attributes.key())
 
-second = Elem('second')
-second2 = Elem('second')
-third = Elem('third')
-third.attributes['jul'] ='lie'
-third.text = 'My own way'
-first.children.append(second)
-second.children.append(third)
+# second = Elem('second')
+# second2 = Elem('second')
+# third = Elem('third')
+# third.attributes['jul'] ='lie'
+# third.text = 'My own way'
+# first.children.append(second)
+# second.children.append(third)
 
 
-first.serialize(root)
-print(ET.tostring(root,encoding='Unicode',pretty_print=True))
+# first.serialize(root)
+# print(ET.tostring(root,encoding='Unicode',pretty_print=True))
 
    

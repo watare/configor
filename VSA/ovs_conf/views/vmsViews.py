@@ -86,21 +86,24 @@ def generateVmConfiguration(request) :
     # #print (ET.tostring(root))
     
     if request.method == 'POST':
-        domainVm = DomainVmForm(request.POST)
+        domainVm = DomainVmForm(request.POST,prefix='one')
+        domainVm2 = DomainVmForm(request.POST,prefix='two')
         print("reçu!")
-        if domainVm.is_valid():
-            print("valid")
-            domain = domainVm.save()
+        print(request.POST)
+        if domainVm2.is_valid():
+            domain = domainVm2.save()
             response = HttpResponse(
             content_type='text-plain')
             response['Content-Disposition'] = 'attachment; filename=ovsConf.yml'
             response.writelines(generateVm(domain))
             return response
-            
+        else:
+            domainVm = DomainVmForm(prefix='one')    
+            domainVm2 = DomainVmForm(prefix='two') 
             # return redirect('generateVmConfiguration',domain.id)  
     else:
         domainVm = DomainVmForm()  
-    return render(request,'ovs_conf/generateVmConfiguration.html',{'bridges':bridges,'domainVm':domainVm})
+    return render(request,'ovs_conf/generateVmConfiguration.html',{'bridges':bridges,'domainVm':domainVm,'domainVm2':domainVm2})
 
 def generateVm(domain):
     #generation du fichier de configuration de la VM
