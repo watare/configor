@@ -1,4 +1,5 @@
 from lxml import etree as ET
+
 class Elem():
 
     def __init__(self,name):
@@ -7,7 +8,17 @@ class Elem():
         self.attributes = {}
         self.children = []
         self.text = None
-            
+    def serialFirst(self):
+        node = ET.Element(self.name)
+        for k,v in self.attributes.items():
+            node.set(k,v)
+        if not self.text :
+            for child in self.children:
+                Elem.serialize(child,node)
+        else :
+            node.text = self.text
+        return node
+                    
     def serialize(self,parentnode):
         node = ET.SubElement(parentnode,self.name)
         for k,v in self.attributes.items():
@@ -36,4 +47,6 @@ second.children.append(third)
 
 
 first.serialize(root)
-print(ET.tostring(root,encoding='Unicode',pretty_print=True))      
+print(ET.tostring(root,encoding='Unicode',pretty_print=True))
+
+   

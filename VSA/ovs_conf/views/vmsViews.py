@@ -11,7 +11,7 @@ from lxml import etree as ET
 from django.conf import settings
 import os
 import random
-
+from ovs_conf.views.foo import Elem
 
 
         
@@ -91,7 +91,25 @@ def generateVmConfiguration(request) :
         if domainVm.is_valid():
             print("valid")
             domain = domainVm.save()
-            return redirect('generateVmConfiguration',domain.id)  
+            response = HttpResponse(
+            content_type='text-plain')
+            response['Content-Disposition'] = 'attachment; filename=ovsConf.yml'
+            response.writelines(generateVm(domain))
+            return response
+            
+            # return redirect('generateVmConfiguration',domain.id)  
     else:
         domainVm = DomainVmForm()  
     return render(request,'ovs_conf/generateVmConfiguration.html',{'bridges':bridges,'domainVm':domainVm})
+
+def generateVm(domain):
+    #generation du fichier de configuration de la VM
+    ele = Elem('domain')
+    ele.attributes['type'] = domain.attr_type
+    ele.text = domain.text_name
+
+    root = ele.serialFirst()
+    return ET.tostring(root,encoding='Unicode',pretty_print=True)
+    
+    
+    
