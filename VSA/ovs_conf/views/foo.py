@@ -16,7 +16,7 @@ class Elem():
             for child in self.children:
                 Elem.serialize(child,node)
         else :
-            print(self.text)
+            # print(self.text)
             node.text = self.text
             
             

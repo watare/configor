@@ -1,5 +1,5 @@
 from django.contrib import admin
-from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig
+from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig,DomainVm
 
 class OtherBridgeConfigAdmin(admin.ModelAdmin):
     list_display = ('bridge','other_config')
@@ -22,3 +22,8 @@ admin.site.register(Port,PortAdmin)
 admin.site.register(TrunkPort,TrunkAdmin)
 admin.site.register(IpPort,IpAdmin)
 admin.site.register(OtherPortConfig,OtherPortConfigAdmin)
+
+class DomainVmAdmin(admin.ModelAdmin):
+    list_display = ('id','attr_type','text_name')
+    
+admin.site.register(DomainVm,DomainVmAdmin)

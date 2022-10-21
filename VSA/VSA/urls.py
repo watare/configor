@@ -18,7 +18,7 @@ from django.urls import path
 from ovs_conf import views
 
 urlpatterns = [
-    path("/admin/", admin.site.urls),
+    path("admin/",admin.site.urls),
     path("",views.base),
     path("base/",views.base,name='base'),
     path("generate_ovs/",views.generate_ovs,name='generate_ovs'),

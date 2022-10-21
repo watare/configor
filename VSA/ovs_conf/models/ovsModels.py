@@ -5,10 +5,12 @@ class OvsBridge(models.Model):
     
     def __str__(self) -> str:
         return f'{self.name}'
-    ordering = ("name", )
     name = models.fields.CharField(max_length=50)
     rstp_enable = models.fields.BooleanField(default=False)
     enable_ipv6 = models.fields.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['name']
 
 class OtherBridgeConfig(models.Model):
     
@@ -38,6 +40,8 @@ class Port(models.Model):
     tag = models.fields.IntegerField(blank=True,null=True,
         validators=[MinValueValidator(0),MaxValueValidator(4095)]
     )
+    class Meta:
+        ordering = ['name']
     
     class VlanMode(models.TextChoices):
     # le _ doit être remplacé par un - lors de la génération du fichier yaml
