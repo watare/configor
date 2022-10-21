@@ -84,7 +84,7 @@ def generateOvsConfiguration(request):
         # i=0
         # print(reqDic['form-'+str(i)+'-select'][0])
         bridgetoSet = []
-        for i in range(0,int(reqDic['form-TOTAL_FORMS'][0])-1):
+        for i in range(0,int(reqDic['form-TOTAL_FORMS'][0])):
             # pass
             if ('form-'+str(i)+'-select') in reqDic:
                 # print (reqDic['form-'+str(i)+'-select'])

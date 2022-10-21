@@ -166,10 +166,10 @@
 			<address type="pci" domain="0x0000" bus="0x06" slot="0x00" function="0x0"/>
 		</rng>
 		<interface type="ethernet">
-			<mac address="54:52:00:3c:24:25"/>
+			<mac address="54:52:00:50:6a:46"/>
 			<target dev="FOO.0" managed="no"/>
 			<model type="virtio"/>
-			<address type="pci" domain="0x0000" bus="0xdf" slot="0x00" function="0x0"/>
+			<address type="pci" domain="0x0000" bus="0x69" slot="0x00" function="0x0"/>
 		</interface>
 	</devices>
 	<seclabel type="dynamic" model="dac" relabel="yes">
