@@ -3,18 +3,26 @@
    <h3>VmConfiguration</h3>
    <div class="card">
       <div class="card-header">
-         VM configuration
+         VM Creation
       </div>
       <div class="card-body">
          <div class="form-group" id="domain">
             <form action="" method="post" novalidate>
                 {% csrf_token %}
                 {{ domainVm.as_p }}
-                {{ domainVm2.as_p }}
-               <input type="submit" value="create">
-            </form>
-         
         </div>
+        <div class="card">
+         <div class="card-header">
+            VM definition
+         </div>
+         <div class="card-body">
+            <div class="form-group" id="domain">
+                   {{ memoryVm.as_p }}
+                  <input type="submit" value="create">
+               </form>
+            
+           </div>
+   
 
    
 {% endblock %}

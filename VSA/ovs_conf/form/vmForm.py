@@ -2,9 +2,8 @@
 from email.policy import default
 from faulthandler import disable
 from unicodedata import name
-from ovs_conf.models import DomainVm
+from ovs_conf.models import DomainVm,MemoryVm
 from django import forms
-from ovs_conf.models import Vm
 
 class DomainVmForm(forms.ModelForm):
   class Meta:
@@ -17,6 +16,17 @@ class DomainVmForm(forms.ModelForm):
     widgets ={
           'name' : forms.TextInput(attrs={'class':'form-control'}),
           'type' : forms.TextInput(attrs={'class':'form-control'})     
+    }
+    
+class MemoryVmForm(forms.ModelForm):
+  class Meta:
+    model = MemoryVm
+    fields = ('text_memory',)
+    labels ={
+    'text_memory' : 'memory',        
+    }
+    widgets ={
+          'memory' : forms.NumberInput(attrs={'class':'form-control'}),
     }
 # class BridgeForm(forms.ModelForm):
 #   select = forms.BooleanField(

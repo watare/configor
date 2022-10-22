@@ -6,7 +6,7 @@ from django.core import serializers
 from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig
 import yaml
 from boltons.iterutils import remap
-from ovs_conf.form import DomainVmForm  
+from ovs_conf.form import DomainVmForm, MemoryVmForm
 from lxml import etree as ET
 from django.conf import settings
 import os
@@ -86,24 +86,31 @@ def generateVmConfiguration(request) :
     # #print (ET.tostring(root))
     
     if request.method == 'POST':
-        domainVm = DomainVmForm(request.POST,prefix='one')
-        domainVm2 = DomainVmForm(request.POST,prefix='two')
+        domainVm = DomainVmForm(request.POST,prefix='domain')
+        memoryVm = MemoryVmForm(request.POST,prefix='memory')
         print("reçu!")
         print(request.POST)
-        if domainVm2.is_valid():
-            domain = domainVm2.save()
-            response = HttpResponse(
-            content_type='text-plain')
-            response['Content-Disposition'] = 'attachment; filename=ovsConf.yml'
-            response.writelines(generateVm(domain))
-            return response
+        if domainVm.is_valid(): 
+            domain = domainVm.save()
+            #recuperer l'id du domaine pour le passer à la memoire
+            domain_id = getattr(domain,'id')
+            setattr(memoryVm,'id',domain_id)
+            if memoryVm.is_valid:
+                memory = memoryVm.save
+                print(memory)
+                response = HttpResponse(
+                content_type='text-plain')
+                response['Content-Disposition'] = 'attachment; filename=ovsConf.yml'
+                response.writelines(generateVm(domain))
+                return response
         else:
             domainVm = DomainVmForm(prefix='one')    
             domainVm2 = DomainVmForm(prefix='two') 
             # return redirect('generateVmConfiguration',domain.id)  
     else:
-        domainVm = DomainVmForm()  
-    return render(request,'ovs_conf/generateVmConfiguration.html',{'bridges':bridges,'domainVm':domainVm,'domainVm2':domainVm2})
+        domainVm = DomainVmForm(prefix='domain')  
+        memoryVm = MemoryVmForm(prefix='memory')
+    return render(request,'ovs_conf/generateVmConfiguration.html',{'bridges':bridges,'domainVm':domainVm,'memoryVm':memoryVm})
 
 def generateVm(domain):
     #generation du fichier de configuration de la VM
