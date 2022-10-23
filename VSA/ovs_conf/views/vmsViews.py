@@ -1,3 +1,4 @@
+from re import sub
 from statistics import median
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -6,7 +7,7 @@ from django.core import serializers
 from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig
 import yaml
 from boltons.iterutils import remap
-from ovs_conf.form import DomainVmForm, MemoryVmForm
+from ovs_conf.form import DomainVmForm, MemoryVmForm,DomainVm,MemoryVm
 from lxml import etree as ET
 from django.conf import settings
 import os
@@ -90,23 +91,29 @@ def generateVmConfiguration(request) :
         memoryVm = MemoryVmForm(request.POST,prefix='memory')
         print("reçu!")
         print(request.POST)
-        if domainVm.is_valid(): 
+        
+        
+        if domainVm.is_valid() and memoryVm.is_valid(): 
+            print('valid')
+            memory = memoryVm.cleaned_data
+            # print(memory
+                #   )
             domain = domainVm.save()
-            #recuperer l'id du domaine pour le passer à la memoire
+            #recuperer l'id du domaine pour le passer aux éléments
             domain_id = getattr(domain,'id')
-            setattr(memoryVm,'id',domain_id)
-            if memoryVm.is_valid:
-                memory = memoryVm.save
-                print(memory)
-                response = HttpResponse(
-                content_type='text-plain')
-                response['Content-Disposition'] = 'attachment; filename=ovsConf.yml'
-                response.writelines(generateVm(domain))
-                return response
+            #mise en BD
+            memory = memoryVm.save(commit=False)
+            memory.vm = DomainVm.objects.get(pk=domain_id)
+            memory.save()
+
+            response = HttpResponse(
+            content_type='text-plain')
+            response['Content-Disposition'] = 'attachment; filename=ovsConf.yml'
+            response.writelines(generateVm(domain))
+            return response
         else:
             domainVm = DomainVmForm(prefix='one')    
-            domainVm2 = DomainVmForm(prefix='two') 
-            # return redirect('generateVmConfiguration',domain.id)  
+
     else:
         domainVm = DomainVmForm(prefix='domain')  
         memoryVm = MemoryVmForm(prefix='memory')
@@ -116,9 +123,22 @@ def generateVm(domain):
     #generation du fichier de configuration de la VM
     ele = Elem('domain')
     ele.attributes['type'] = domain.attr_type
-    ele.text = domain.text_name
+    # ele.text = domain.text_name
 
+    
+    # query the database
+    child = []
+    memory = MemoryVm.objects.filter(vm=domain)
+    print(memory)
+    for mem in memory:
+        print('yo')
+        subele = Elem('memory')
+        subele.text = str(mem.text_memory)
+        ele.children.append(subele)
+        print(ele.children[0].name)
+        
     root = ele.serialFirst()
+    # root = ele.serialFirst
     return ET.tostring(root,encoding='Unicode',pretty_print=True)
     
     

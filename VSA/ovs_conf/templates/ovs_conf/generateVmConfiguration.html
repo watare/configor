@@ -1,27 +1,29 @@
 {% extends 'ovs_conf/base.html'%}
 {% block content %}
    <h3>VmConfiguration</h3>
-   <div class="card">
-      <div class="card-header">
-         VM Creation
-      </div>
-      <div class="card-body">
-         <div class="form-group" id="domain">
-            <form action="" method="post" novalidate>
-                {% csrf_token %}
+   <form action="" method="post" novalidate>
+      {% csrf_token %}
+      <div class="card">
+         <div class="card-header">
+            VM Creation
+         </div>
+         <div class="card-body">
+            <div class="form-group" >
                 {{ domainVm.as_p }}
-        </div>
-        <div class="card">
+            </div>
+         </div>
+      <div class="card">
          <div class="card-header">
             VM definition
          </div>
          <div class="card-body">
-            <div class="form-group" id="domain">
-                   {{ memoryVm.as_p }}
-                  <input type="submit" value="create">
-               </form>
-            
+            <div class="form-group" >
+                  {{ memoryVm.as_p }}
            </div>
+         </div>
+      </div>
+      <input type="submit" value="create">
+   </form>
    
 
    
