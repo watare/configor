@@ -30,21 +30,27 @@ class SubEleManager(models.Manager):
     # def createSub(self,name):        
         subele = self.create(name=name)
         subele.fkey = parent
+        if len(kwargs) > 0:
+            subele.attributes = {}
         for k,v in kwargs.items():
-            print("%s = %s" % (k, v))
+            # print("%s = %s" % (k, v))
             subele.attributes[k] = v
         if not text == None:
             subele.text = text
         
+
         # do something with the book
         return subele
 class SubEleModel(models.Model):
-    
+   #classe permettant de sauvegarder en database tous les elements du formulaire 
     name = models.CharField(max_length=100)
     fkey = models.ForeignKey('self',on_delete=models.CASCADE,null=True, blank=True)
     text = models.CharField(max_length=100)
-    attributes ={}
+    attributes = models.TextField(blank=True, null=True, default='{}')
     objects = SubEleManager()
+    
+    class Meta:
+        ordering = ['name']
     
 
     #faire un modele par type d'élément. 
