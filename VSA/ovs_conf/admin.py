@@ -1,6 +1,6 @@
 from django.contrib import admin
 from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig
-from ovs_conf.models import DomainVm,MemoryVm
+from ovs_conf.models import DomainVm,MemoryVm,SubEleModel
 
 class OtherBridgeConfigAdmin(admin.ModelAdmin):
     list_display = ('bridge','other_config')
@@ -9,7 +9,7 @@ class OtherPortConfigAdmin(admin.ModelAdmin):
     list_display = ('port','other_config')
     
 class PortAdmin(admin.ModelAdmin):
-    list_display = ('name','bridge','type','vlan_mode')
+    list_display = ('id','name','bridge','type','vlan_mode')
     
 class TrunkAdmin(admin.ModelAdmin):
     list_display = ('id','port','trunk')
@@ -31,8 +31,11 @@ class DomainVmAdmin(admin.ModelAdmin):
 
 class MemoryVmAdmin(admin.ModelAdmin):
     list_display = ('id','text_memory')  
-      
+ 
+class SubEleAdmin(admin.ModelAdmin):
+    list_display = ('id','name','fkey','text','attributes') 
+         
 admin.site.register(DomainVm,DomainVmAdmin)
 admin.site.register(MemoryVm,MemoryVmAdmin)
-
+admin.site.register(SubEleModel,SubEleAdmin)
     

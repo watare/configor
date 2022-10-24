@@ -1,11 +1,12 @@
+from unicodedata import name
 from django.db import models
-from ovs_conf.models.ovsModels import Port
+from ovs_conf.models.ovsModels import OvsBridge, Port
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class DomainVm(models.Model):
     
     def __str__(self) -> str:
-        return f'{self.name}'
+        return f'{self.name}'   
     attr_type = models.fields.CharField(max_length=5)
     text_name = models.fields.CharField(max_length=20)
         
@@ -23,6 +24,28 @@ class MemoryVm(models.Model):
     text_memory = models.fields.IntegerField(
         validators=[MinValueValidator(1000),MaxValueValidator(10000)]
     )
+    
+class SubEleManager(models.Manager):
+    def createSub(self,name,parent=None,text=None,**kwargs):
+    # def createSub(self,name):        
+        subele = self.create(name=name)
+        subele.fkey = parent
+        for k,v in kwargs.items():
+            print("%s = %s" % (k, v))
+            subele.attributes[k] = v
+        if not text == None:
+            subele.text = text
+        
+        # do something with the book
+        return subele
+class SubEleModel(models.Model):
+    
+    name = models.CharField(max_length=100)
+    fkey = models.ForeignKey('self',on_delete=models.CASCADE,null=True, blank=True)
+    text = models.CharField(max_length=100)
+    attributes ={}
+    objects = SubEleManager()
+    
 
     #faire un modele par type d'élément. 
     #lui assosicer la bonne foreing key

@@ -1,10 +1,11 @@
 from re import sub
 from statistics import median
+from xml.etree.ElementTree import SubElement
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
 # from rest_framework import serializers
-from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig
+from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig,SubEleModel
 import yaml
 from boltons.iterutils import remap
 from ovs_conf.form import DomainVmForm, MemoryVmForm,DomainVm,MemoryVm
@@ -20,6 +21,14 @@ def generateVmConfiguration(request) :
     ## VM model
 
     bridges = OvsBridge.objects.all()
+    ele = SubEleModel.objects.all()
+    subelemodel = SubEleModel.objects.createSub('tonton',parent=ele[0],text='ok',key='value')
+    # subelemodel.save(commit = False)
+    
+    # subelemodel.fkey = ports[0]
+    subelemodel.save()
+    # subelemodel = SubEleModel.objects.createSub('toto')
+    print(subelemodel.__dict__)  
     # media_root= settings.MEDIA_ROOT    
     # path = media_root+'template.xml'
     # tree = ET.parse(path)
