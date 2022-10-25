@@ -26,9 +26,9 @@ class MemoryVm(models.Model):
     )
     
 class SubEleManager(models.Manager):
-    def createSub(self,name,parent=None,text=None,**kwargs):
+    def createSub(self,subname,parent=None,text=None,**kwargs):
     # def createSub(self,name):        
-        subele = self.create(name=name)
+        subele = self.create(name=subname)
         subele.fkey = parent
         if len(kwargs) > 0:
             subele.attributes = {}

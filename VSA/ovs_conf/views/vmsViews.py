@@ -17,25 +17,175 @@ from ovs_conf.views.foo import Elem
 
 def generateVmConfiguration(request):
     bridges = OvsBridge.objects.all()
-    domain =  SubEleModel.objects.createSub('domain',type='kvm')
-    domain.save()
-    # print(domain.__dict__) 
-    memory =  SubEleModel.objects.createSub('memory',parent=domain,text='1000',unit='Kib')
+    
+    def subEle(subname,parent=None,text=None,**kwargs):
+        sub = SubEleModel.objects.createSub(subname,parent=parent,text=text,**kwargs)
+        sub.save()
+        return sub
+        
+    domain = subEle('domain',type='kvm')   
+    subEle('memory',parent=domain,text='2000',unit='Kib')
+    subEle('vcpu',parent=domain,text='2',placement="static")
+    
+    subEle('name',parent=domain,text='MyVM')
+    
+    resource = subEle('resource',parent=domain)
+    subEle('partition',parent=resource,text='/machine')
+    
+    os = subEle('os',parent=domain)
+    subEle('type',parent=os,text='hvm',arch="x86_64",machine="pc-q35-3.1")
+    subEle('boot',parent=os,dev="hd")
+    
+    features = subEle('features',parent=domain)
+    subEle('acpi',parent=features)
+    subEle('apic',parent=features)
+    
+    cpu = subEle('cpu',parent=domain,mode="host",match="exact", check="full")
+    subEle('model',parent=cpu,text='Penryn',fallback="forbid")
+    subEle('vendor',parent=cpu,text='Intel')
+    subEle('feature',parent=cpu,policy="require",name="vme")
+    subEle('feature',parent=cpu,policy="require",name="ss")
+    subEle('feature',parent=cpu,policy="require",name="x2apic")
+    subEle('feature',parent=cpu,policy="require",name="tsc-deadline")
+    subEle('feature',parent=cpu,policy="require",name="xsave")
+    subEle('feature',parent=cpu,policy="require",name="hypervisor")
+    subEle('feature',parent=cpu,policy="require",name="arat")
+    subEle('feature',parent=cpu,policy="require",name="tsc_adjust")
+    clock = subEle('clock',parent=domain,offset="utc")
+    subEle('timer',parent=clock,name="rtc",tickpolicy="catchup")
+    subEle('timer',parent=clock,name="pit",tickpolicy="delay")
+    subEle('timer',parent=clock,name="hpet",present="no")
+    subEle('on_poweroff',parent=domain,text='destroy')
+    subEle('on_reboot',parent=domain,text='restart')
+    subEle('on_crash',parent=domain,text='destroy')
+    
+    pm = subEle('pm',parent=domain)
+    subEle('suspend-to-mem',parent=pm,enabled="no")
+    subEle('suspend-to-disk',parent=pm,enabled="no")
+    
+    devices = subEle('devices',parent=domain)
+    subEle('emulator',parent=devices,text='/usr/bin/qemu-system-x86_64')
+    
+    controller = subEle('controller',parent=devices,type="usb",index="0",model="qemu-xhci",ports="15")
+    subEle('alias',parent=controller,name="usb")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x02",slot="0x00",function="0x0")
+    
+    controller = subEle('controller',parent=devices,type="sata",index="0")
+    subEle('alias',parent=controller,name="ide")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x1f",function="0x2")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="0",model="pcie-root")
+    subEle('alias',parent=controller,name="pcie.0")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="1",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="1",port="0x8")
+    subEle('alias',parent=controller,name="pci.1")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x01",function="0x0",multifunction="on")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="2",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="2",port="0x9")
+    subEle('alias',parent=controller,name="pci.2")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x01",function="0x1")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="3",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="3",port="0xa")
+    subEle('alias',parent=controller,name="pci.3")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x01",function="0x2")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="4",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="4",port="0xb")
+    subEle('alias',parent=controller,name="pci.4")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x01",function="0x3")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="5",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="5",port="0xc")
+    subEle('alias',parent=controller,name="pci.5")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x01",function="0x4")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="6",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="6",port="0xd")
+    subEle('alias',parent=controller,name="pci.6")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x01",function="0x5")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="7",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="7",port="0xe")
+    subEle('alias',parent=controller,name="pci.7")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x01",function="0x6")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="8",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="8",port="0xf")
+    subEle('alias',parent=controller,name="pci.8")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x01",function="0x7")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="9",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="9",port="0x10")
+    subEle('alias',parent=controller,name="pci.9")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x02",function="0x0",multifunction="on")
+    
+    controller = subEle('controller',parent=devices,type="pci",index="10",model="pcie-root-port")
+    subEle('model',parent=controller,name="pcie-root-port")
+    subEle('target',parent=controller,chassis="10",port="0x11")
+    subEle('alias',parent=controller,name="pci.10")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x00",slot="0x02",function="0x1")
+    
+    controller = subEle('controller',parent=devices,type="virtio-serial",index="0")
+    subEle('alias',parent=controller,name="virtio-serial0")
+    subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x03",slot="0x00",function="0x0")
+    
+    interface = subEle('interface',parent=devices,type="ethernet")
+    subEle('mac',parent=interface,address="52:54:00:11:19:10")
+    subEle('target',parent=interface,dev="AHYPE.0",managed="no")
+    subEle('model',parent=interface,type="virtio")
+    subEle('address',parent=interface,type="pci",domain="0x0000",bus="0x01",slot="0x00",function="0x0")
+    
+    interface = subEle('interface',parent=devices,type="ethernet")
+    subEle('mac',parent=interface,address="52:54:00:11:19:11")
+    subEle('target',parent=interface,dev="AHYPE.1",managed="no")
+    subEle('model',parent=interface,type="virtio")
+    subEle('address',parent=interface,type="pci",domain="0x0000",bus="0x07",slot="0x00",function="0x0")
+    
+    serial = subEle('serial',parent=devices,type='pty')
+    subEle('source',parent=serial,path='/dev/pts/0')
+    target = subEle('target',parent=serial,type='isa-serial',port='0')
+    subEle('model',parent=target,name='isa-serial')
+    subEle('alias',parent=serial,name="serial0")
+    
+    console = subEle('console',parent=devices,type='pty',tty='/dev/pts/0')
+    subEle('source',parent=console,path='/dev/pts/0')
+    subEle('target',parent=console,type='serial',port='0')
+    subEle('alias',parent=console,name="serial0")
+    
+    channel = subEle('channel',parent=devices,type="unix")
+    subEle('source',parent=channel,mode='bind',path='/var/lib/libvirt/qemu/channel/target/domain-25-AHYPE/org.qemu.guest_agent.0')
+    subEle('target',parent=channel,type='virtio',name="org.qemu.guest_agent.0",state="disconnected")
+    subEle('alias',parent=channel,name="channel0")
+    subEle('address',parent=channel,type="virtio-serial",controller="0",bus="0",port="1")
+    
+    input = subEle('input',parent=devices,type="mouse",bus='ps2')
+    subEle('alias',parent=input,name="input0")
+    
+    input = subEle('input',parent=devices,type="keyboard",bus='ps2')
+    subEle('alias',parent=input,name="input1")
+    
+    rng = subEle('rng',parent=devices,model='virtio')
+    subEle('backend',parent=rng,text='/dev/urandom',model='random')
+    subEle('alias',parent=rng,name="rng0")
+    subEle('address',parent=rng,type="pci",domain="0x0000",bus="0x06",slot="0x00",function="0x0")
+    
+    
+    
     # print(memory.__dict__) 
-    memory.save()
-    vcpu =  SubEleModel.objects.createSub('vcpu',parent=domain,text='1',placement="static")
-    vcpu.save()
-    resource = SubEleModel.objects.createSub('resource',parent=domain)
-    resource.save()
-    partition = SubEleModel.objects.createSub('partition',parent=resource,text='/machine')
-    partition.save()
-    os = SubEleModel.objects.createSub('os',parent=domain)
-    os.save()
-    type = SubEleModel.objects.createSub('type',parent=os,text='hvm',arch="x86_64",machine="pc-q35-3.1")
-    type.save()
-    boot = SubEleModel.objects.createSub('boot',parent=os,dev="hd")
-    boot.save()
-
+    # print(memory.__dict__) 
+    
     # print(memory.__dict__) 
     if request.method == 'POST':
         response = HttpResponse(
