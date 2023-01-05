@@ -11,7 +11,7 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
         TZ: Europe/Paris
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - name: Install dependencies
         run: |
           apt-get update;apt-get upgrade -y
@@ -49,7 +49,7 @@ jobs:
             });
       - name: Push changes to main branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/git-toolkit-actions@1.1.1
+        uses: actions/checkout@v3
         with:
           action: 'push'
           branch: main
