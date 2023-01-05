@@ -1,12 +1,13 @@
-from re import sub
+import re
 from statistics import median
+from sys import prefix
 from xml.etree.ElementTree import SubElement
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
-from ovs_conf.form import VmForm
+from ovs_conf.form import VmForm,PortFormSelect
 # from rest_framework import serializers
-from ovs_conf.models import OvsBridge,OtherBridgeConfig,Port,TrunkPort,IpPort,OtherPortConfig,SubEleModel
+from ovs_conf.models import Port,SubEleModel,OvsBridge
 import yaml
 from boltons.iterutils import remap
 from lxml import etree as ET
@@ -14,25 +15,60 @@ from django.conf import settings
 import os
 import random
 from ovs_conf.views.foo import Elem
+from django.forms import formset_factory
+
+def is_valid_macaddr802(value):
+    allowed = re.compile(r"""
+                         (
+                             ^([0-9A-F]{2}[-]){5}([0-9A-F]{2})$
+                            |^([0-9A-F]{2}[:]){5}([0-9A-F]{2})$
+                         )
+                         """,
+                         re.VERBOSE|re.IGNORECASE)
+
+    if allowed.match(value) is None:
+        return False
+    else:
+        return True
 
 def generateVmConfiguration(request):
     bridges = OvsBridge.objects.all()
-    # fundtion permettant d'enregistrer un nouvel element dans la BD en prenant en compte la hirarchisation 
+    # fundtion permettant d'enregistrer un nouvel element dans la BD en prenant en compte la hierarchisation 
     def subEle(subname,parent=None,text=None,**kwargs):
         sub = SubEleModel.objects.createSub(subname,parent=parent,text=text,**kwargs)
         sub.save()
         return sub
     
+    ## Selection des bons réseaux 
     
+    ports = Port.objects.all()
+    PortList = []
+    for port in ports:
+        bridgeName = port.bridge.name
+        PortList.append(
+            
+            {'bridge': bridgeName,'name':port,'select':''})
+    # print(fList)
+    
+    Formset = formset_factory(PortFormSelect,extra=0)
+       
    
     
     
     ## generation du fichier XML
     if request.method == 'POST':
-        form = VmForm(request.POST)
+        form = VmForm(request.POST,prefix='vm')
+        formset = Formset(request.POST,prefix='formset')
         
-        if form.is_valid():
+        ## creation des bridges
+        reqDic = dict(request.POST)
+        if form.is_valid() :
             form = form.cleaned_data
+            porttoSet = []
+            for i in range(0,int(reqDic['formset-TOTAL_FORMS'][0])):
+                if ('formset-'+str(i)+'-select') in reqDic:
+                    porttoSet.append({'port':Port.objects.get(name=reqDic['formset-'+str(i)+'-name'][0]),'mac':reqDic['formset-'+str(i)+'-mac'][0]})
+            print(porttoSet)
             
              ## template initial XML
             domain = subEle('domain',type='kvm')   
@@ -45,17 +81,7 @@ def generateVmConfiguration(request):
             subEle('acpi',parent=features)
             subEle('apic',parent=features)
             
-            cpu = subEle('cpu',parent=domain,mode="host",match="exact", check="full")
-            subEle('model',parent=cpu,text='Penryn',fallback="forbid")
-            subEle('vendor',parent=cpu,text='Intel')
-            subEle('feature',parent=cpu,policy="require",name="vme")
-            subEle('feature',parent=cpu,policy="require",name="ss")
-            subEle('feature',parent=cpu,policy="require",name="x2apic")
-            subEle('feature',parent=cpu,policy="require",name="tsc-deadline")
-            subEle('feature',parent=cpu,policy="require",name="xsave")
-            subEle('feature',parent=cpu,policy="require",name="hypervisor")
-            subEle('feature',parent=cpu,policy="require",name="arat")
-            subEle('feature',parent=cpu,policy="require",name="tsc_adjust")
+            cpu = subEle('cpu',parent=domain,mode="host-model",match="exact", check="full")
             clock = subEle('clock',parent=domain,offset="utc")
             subEle('timer',parent=clock,name="rtc",tickpolicy="catchup")
             subEle('timer',parent=clock,name="pit",tickpolicy="delay")
@@ -146,17 +172,19 @@ def generateVmConfiguration(request):
             subEle('alias',parent=controller,name="virtio-serial0")
             subEle('address',parent=controller,type="pci",domain="0x0000",bus="0x03",slot="0x00",function="0x0")
             
-            interface = subEle('interface',parent=devices,type="ethernet")
-            subEle('mac',parent=interface,address="52:54:00:11:19:10")
-            subEle('target',parent=interface,dev="AHYPE.0",managed="no")
-            subEle('model',parent=interface,type="virtio")
-            subEle('address',parent=interface,type="pci",domain="0x0000",bus="0x01",slot="0x00",function="0x0")
-            
-            interface = subEle('interface',parent=devices,type="ethernet")
-            subEle('mac',parent=interface,address="52:54:00:11:19:11")
-            subEle('target',parent=interface,dev="AHYPE.1",managed="no")
-            subEle('model',parent=interface,type="virtio")
-            subEle('address',parent=interface,type="pci",domain="0x0000",bus="0x07",slot="0x00",function="0x0")
+            ## ajout des interfaces réseaux
+            i=0
+            for port in porttoSet:
+                
+                print(port['mac'])
+                if is_valid_macaddr802(port['mac']):
+                    interface = subEle('interface',parent=devices,type="ethernet")
+                    subEle('mac',parent=interface,address=port['mac'])
+                    subEle('target',parent=interface,dev=port['port'].name,managed="no")
+                    subEle('model',parent=interface,type="virtio")
+                    subEle('address',parent=interface,type="pci",domain="0x0000",bus="0x01",slot="0x0"+str(i),function="0x0")
+                    i+=1
+
             
             serial = subEle('serial',parent=devices,type='pty')
             subEle('source',parent=serial,path='/dev/pts/0')
@@ -198,8 +226,9 @@ def generateVmConfiguration(request):
             response.writelines(generateVm(domain))
             return response
     else :
-        form = VmForm()    
-    return render(request,'ovs_conf/generateVmConfiguration.html',{'bridges':bridges,'form':form})
+        form = VmForm(prefix='vm')
+        formset = Formset(initial=PortList,prefix='formset')
+    return render(request,'ovs_conf/generateVmConfiguration.html',{'bridges':bridges,'formset':formset,'form':form})
 
 # def generateVmConfiguration(request) :
 #     ## VM model

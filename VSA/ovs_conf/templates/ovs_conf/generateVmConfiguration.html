@@ -1,8 +1,9 @@
 {% extends 'ovs_conf/base.html'%}
 {% block content %}
+<form action="" method="post" novalidate>
+   {% csrf_token %}
    <h3>VmConfiguration</h3>
-   <form action="" method="post" novalidate>
-      {% csrf_token %}
+
       <div class="card">
          <div class="card-header">
             VM Creation
@@ -12,9 +13,37 @@
                 {{ form.as_p }}
             </div>
          </div>
-      <input type="submit" value="create">
-   </form>
-   
+   <div class="card">
+      <div class="card-header">
+         Bridge to add to the configuration file
+      </div>
+         <div class="card-body">
+            <table class="table">
+               {{ formset.management_form }}
+               <table>
+                  {% for form in formset %}
+                  <tr>
+                        <td>
+                           {{ form.select }}
+                        </td>
+                        <td>
+                           {{form.bridge}}  
+                        </td>
+                        <td>
+                           {{form.name}}
+                        </td>
+                        <td>
+                           {{form.mac}}
+                        </td>
+                  </tr>
+                  {% endfor %}
+               </table>
+            </table>
+         </div>
+         <input type="submit" value="create">
+      </form>
+      </div>
+  
 
    
 {% endblock %}

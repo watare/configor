@@ -1,9 +1,5 @@
 
-from email.policy import default
-from faulthandler import disable
-from logging import PlaceHolder
-import resource
-from unicodedata import name
+
 from ovs_conf.models import DomainVm,MemoryVm
 from django import forms
 
@@ -16,7 +12,7 @@ class VmForm(forms.Form):
     )
   
   PARTITIONS = (
-    ("/machine","machine"),
+    ("/nort","non rt"),
     ("/rt","rt")
   )
   partition = forms.ChoiceField(choices=PARTITIONS,

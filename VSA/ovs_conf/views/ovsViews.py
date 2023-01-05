@@ -70,7 +70,6 @@ def ports_create(request,name):
 def generateOvsConfiguration(request):
     bridges = OvsBridge.objects.all()
     bridgeList = []
-    bridgeList = []
     for bridge in bridges:
         bridgeList.append(
             {'name':bridge,'select':''})
@@ -81,8 +80,7 @@ def generateOvsConfiguration(request):
     # print(formset.as_table())
     if request.method == 'POST':
         reqDic = dict(request.POST)
-        # i=0
-        # print(reqDic['form-'+str(i)+'-select'][0])
+
         bridgetoSet = []
         for i in range(0,int(reqDic['form-TOTAL_FORMS'][0])):
             # pass

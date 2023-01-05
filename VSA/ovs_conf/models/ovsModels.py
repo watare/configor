@@ -26,7 +26,6 @@ class Port(models.Model):
     
     bridge = models.ForeignKey(OvsBridge,on_delete=models.CASCADE)
     name = models.fields.CharField(max_length=50) #the interface bridge name
-    
     class Type(models.TextChoices):
         internal = 'internal'
         system = 'system'
@@ -41,7 +40,7 @@ class Port(models.Model):
         validators=[MinValueValidator(0),MaxValueValidator(4095)]
     )
     class Meta:
-        ordering = ['name']
+        ordering = ['bridge']
     
     class VlanMode(models.TextChoices):
     # le _ doit être remplacé par un - lors de la génération du fichier yaml
