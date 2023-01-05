@@ -22,9 +22,10 @@ jobs:
       - name: Set time zone
         run: |
           apt-get update
+          dpkg-reconfigure -f noninteractive tzdata
           apt-get install -y tzdata
           ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime
-          dpkg-reconfigure -f noninteractive tzdata
+          
       - name: Run tests
         run: |
           python manage.py test
