@@ -3,7 +3,7 @@ from ovs_conf.models import Port
 VlanMode = Port.VlanMode
 from django.test import TestCase
 from ovs_conf.models import OvsBridge
-#commentaires
+#commentairess
 class OvsBridgeTestCase(TestCase):
     def setUp(self):
         OvsBridge.objects.create(name='br0', rstp_enable=True, enable_ipv6=True)
