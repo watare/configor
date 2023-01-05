@@ -31,8 +31,4 @@ jobs:
       - name: Run tests
         run: |
           python VSA/manage.py test ovs_conf  -v 2
-      - name: create pr
-        if: success()
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4.2.3
 
