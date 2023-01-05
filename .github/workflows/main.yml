@@ -17,9 +17,14 @@ jobs:
           apt-get install -y python3-pip
           update-alternatives --install /usr/bin/python python /usr/bin/python3 1
           apt-get install -y libguestfs-tools python3-guestfs
-          apt-get install -y python3-tk
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      - name: Set time zone
+        run: |
+          apt-get update
+          apt-get install -y tzdata
+          ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime
+          dpkg-reconfigure -f noninteractive tzdata
       - name: Run tests
         run: |
           python manage.py test
