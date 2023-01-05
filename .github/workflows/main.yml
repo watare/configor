@@ -32,7 +32,7 @@ jobs:
         run: |
           python VSA/manage.py test ovs_conf  -v 2
       - name: Update required status checks
-        uses: actions/github-script@0.9.1
+        uses: actions/checkout@v3
         with:
           script: |
             const github = require('@actions/github');
