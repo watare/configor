@@ -5,6 +5,7 @@ from unicodedata import name
 from ovs_conf.models import OvsBridge, Port
 from django import forms
 
+
 class BridgeFormSelect(forms.ModelForm):
   select = forms.BooleanField(
     label='select',
@@ -20,6 +21,7 @@ class BridgeFormSelect(forms.ModelForm):
     widgets ={
           'name' : forms.TextInput(attrs={'class':'form-control','readonly':'readonly'})   
     }
+    
 class BridgeForm(forms.ModelForm):
   select = forms.BooleanField(
       label='select',
@@ -52,6 +54,28 @@ class BridgeFormRo(forms.ModelForm):
          'enable_ipv6' : forms.CheckboxInput(attrs={'class':'form-check-label'})
      }     
      
+    
+class PortFormSelect(forms.ModelForm):
+  select = forms.BooleanField(required=False,
+    label='select',
+
+    widget=forms.CheckboxInput(attrs={'class':'form-check-label'})
+    )
+  mac =forms.CharField(required=True,max_length=20,
+                       label='',
+                       widget=forms.TextInput(attrs={'class':'form-control','placeholder':'MacAddress'})
+  )
+                       
+  class Meta:
+    model = Port
+    fields = ('bridge','name',)
+    labels ={
+    'name' : ''        
+    }
+    widgets ={
+          'bridge' : forms.TextInput(attrs={'class':'form-control','readonly':'readonly'}),
+          'name' : forms.TextInput(attrs={'class':'form-control','readonly':'readonly'})   
+    }
      
 class PortForm(forms.ModelForm):
    class Meta:

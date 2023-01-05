@@ -4,22 +4,22 @@
 ARG VARIANT="jammy"
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
-Copy codeFROM python:3.9
-
+RUN apt-get update;apt-get upgrade -y 
+RUN apt-get install -y python3-pip
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+RUN apt-get install -y libguestfs-tools python3-guestfs
+RUN apt-get install -y python3-tk
 RUN mkdir /app
 
 WORKDIR /app
 
-COPY requirements.txt /app/
+#COPY ../requirements.txt /app/
+COPY ../ /app/
 
 RUN pip install -r requirements.txt
 
-COPY . /app/
+#COPY ../ /app/
 
 EXPOSE 8000
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
