@@ -16,7 +16,7 @@ jobs:
         run: |
           apt-get update;apt-get upgrade -y
           apt-get install -y python3-pip
-          apt-get install git
+          apt-get install -y git
           update-alternatives --install /usr/bin/python python /usr/bin/python3 1
           apt-get install -y libguestfs-tools python3-guestfs
           apt-get install -y python3-tk
