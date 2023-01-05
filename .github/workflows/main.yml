@@ -31,27 +31,8 @@ jobs:
       - name: Run tests
         run: |
           python VSA/manage.py test ovs_conf  -v 2
-      - name: Update required status checks
-        uses: actions/checkout@v3
-        with:
-          script: |
-            const github = require('@actions/github');
-            const { owner, repo } = github.context.repo;
-            const branch = github.context.ref;
-            await github.branch_protection.update_required_status_checks({
-              owner,
-              repo,
-              branch,
-              required_status_checks: {
-                strict: true,
-                contexts: ['ci/build']
-              }
-            });
-      - name: Push changes to main branch
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/checkout@v3
-        with:
-          action: 'push'
-          branch: main
-          message: 'Update main branch'
+      - name: Create Pull Request
+        if: success()
+        uses: peter-evans/create-pull-request@v4.2.3
+
    
