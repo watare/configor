@@ -1,4 +1,4 @@
-Copy codename: CI
+name : CI
 
 on: [push]
 
