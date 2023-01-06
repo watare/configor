@@ -22,8 +22,6 @@ class OvsBridgeTestCase(TestCase):
             OvsBridge.objects.get(name='br1'),
         ])
 
-// add test for all models
-
 class PortTestCase(TestCase):
     def setUp(self):
         Port.objects.create(name='eth0', vlan_mode=VlanMode.TRUNK, vlan_tag=1)
