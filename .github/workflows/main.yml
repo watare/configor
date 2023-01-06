@@ -18,7 +18,6 @@ jobs:
           pip install -r requirements.txt
       - name: Set time zone
         run: |
-          apt-get update
           apt-get install -y tzdata
           ln -fs /usr/share/zoneinfo/Europe/Paris /etc/localtime
           dpkg-reconfigure -f noninteractive tzdata
@@ -27,5 +26,3 @@ jobs:
         run: |
           python VSA/manage.py test ovs_conf  -v 2
 
-
-   
