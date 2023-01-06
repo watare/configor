@@ -6,19 +6,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ubuntu:latest
+      image: watar/configorci
       env:
         DEBIAN_FRONTEND: noninteractive
         TZ: Europe/Paris
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: |
-          apt-get update;apt-get upgrade -y
-          apt-get install -y python3-pip
-          update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-          apt-get install -y libguestfs-tools python3-guestfs
-          apt-get install -y python3-tk
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Set time zone
