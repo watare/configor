@@ -101,9 +101,9 @@ class OtherPortTestCase(TestCase):
         self.assertEqual(eth2.vlan_mode, VlanMode.native_untagged)
         self.assertEqual(eth2.tag, 3)
         
+  # function that return today's date and time
+  
+def get_date_time():
+    return datetime.datetime.now()
 
-
-
-
-
-
+# print the date and time
