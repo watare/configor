@@ -24,5 +24,5 @@ jobs:
           
       - name: Run tests
         run: |
-          python VSA/manage.py test ovs_conf  -v 2
+          python configor/manage.py test ovs_conf  -v 2
 
