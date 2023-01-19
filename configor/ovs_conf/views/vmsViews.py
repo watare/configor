@@ -14,7 +14,7 @@ from lxml import etree as ET
 from django.conf import settings
 import os
 import random
-from ovs_conf.views.foo import Elem
+from ovs_conf.views.other_functions import Elem
 from django.forms import formset_factory
 
 def is_valid_macaddr802(value):

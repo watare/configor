@@ -1,6 +1,5 @@
 from unicodedata import name
 from django.db import models
-from ovs_conf.models.ovsModels import OvsBridge, Port
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class DomainVm(models.Model):
@@ -52,8 +51,3 @@ class SubEleModel(models.Model):
     class Meta:
         ordering = ['name']
     
-
-    #faire un modele par type d'élément. 
-    #lui assosicer la bonne foreing key
-    #remplir manuellement quelque champs
-    #faire une fonction qui reconstruit l'arborescence (en partant des éléments les plus bas)

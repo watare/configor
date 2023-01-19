@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "VSA.wsgi.application"
+WSGI_APPLICATION = "configor.wsgi.application"
 
 
 # Database

@@ -3,7 +3,8 @@ from ovs_conf.models import Port
 VlanMode = Port.VlanMode
 from django.test import TestCase
 from ovs_conf.models import OvsBridge
-
+from django.test import Client
+import configor.urls as urls
 class OvsBridgeTestCase(TestCase):
     def setUp(self):
         OvsBridge.objects.create(name='br0', rstp_enable=True, enable_ipv6=True)
@@ -101,9 +102,18 @@ class OtherPortTestCase(TestCase):
         self.assertEqual(eth2.vlan_mode, VlanMode.native_untagged)
         self.assertEqual(eth2.tag, 3)
         
-  # function that return today's date and time
-  
-def get_date_time():
-    return datetime.datetime.now()
+# function to test whether each page ofthe web page is accessible
 
-# print the date and time
+address = 'http://127.0.0.1:8000/'
+
+class websiteTestCase(TestCase):
+    def test_website(self):
+        c = Client()
+        for path in urls.urlpatterns:
+            a = str(path)
+            a = a.split('\'')
+            a = a[1]
+            a = address + a
+            print(a)
+        response = c.get(a)
+        self.assertEqual(response.status_code, 200)

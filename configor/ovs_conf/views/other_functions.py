@@ -1,5 +1,6 @@
 from lxml import etree as ET
 
+# class Elem(): to be used as a base class for all the elements from the xml file that represent the VM configuration
 class Elem():
 
     def __init__(self,name):
@@ -8,6 +9,7 @@ class Elem():
         self.attributes = {}
         self.children = []
         self.text = None
+    # function to add the nested elements to the root element
     def serialFirst(self):
         node = ET.Element(self.name)
         for k,v in self.attributes.items():
@@ -18,7 +20,8 @@ class Elem():
         else :
             node.text = self.text
         return node
-                    
+    
+    # function to add the nested elements to a Parent element               
     def serialize(self,parentnode):
         node = ET.SubElement(parentnode,self.name)
         for k,v in self.attributes.items():
